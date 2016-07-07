@@ -2,3 +2,7 @@
 <br>
 <h3>Email : <%= customer.email %></h3>
 <h4>State : <%= customer.state %></h4>
+<form action="/stock/new/" method="post">
+	<input type="hidden" value="<%= customer.id %>" name="owner" >
+	<input type="submit" value="Add Stock" />
+</form>

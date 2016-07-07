@@ -19,7 +19,11 @@ module.exports = {
   	},
   	state:{
   		type:'string'
-  	}
+  	},
+    stocks:{
+      collection:'stock',
+      via:'owner'
+    }
   }
 };
 
