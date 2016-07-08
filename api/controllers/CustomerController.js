@@ -20,9 +20,38 @@ module.exports = {
 		Customer.findOne(req.param('id')).populateAll().exec(function(err,customer){
 			if(err) return next(err);
 			if(!customer) return next();
-			res.view({
+
+			var request=require('request');
+
+			function process_response(webservice_response,stock,body,callback){
+				var webservice_data = "";
+				
+				var parsedVar = JSON.parse(body);
+				stock.current_price = parsedVar.LastPrice;
+				
+				console.log("Inside process_response"+stock.symbol+ ' = $'+stock.current_price);
+				callback();
+			};
+
+			function get_current_price(stock,callback){
+				
+				var webservice_request = request.get({url:"http://dev.markitondemand.com/MODApis/Api/v2/Quote/JSON?symbol="+stock.symbol},
+					function(error,res,body){					
+					process_response(res,stock,body,callback);					
+				});
+				//console.log("Inside get_current_price"+stock.symbol+ ' = '+stock.current_price);		
+			};
+
+			async.each(customer.stocks,get_current_price,function(err){
+				if(err) console.log(err);
+				//console.log('done');
+
+				res.view({
 				customer:customer
-			});
+				});
+			});			
+
+			
 		});		
 	},
 	index:function(req,res,next){

@@ -17,7 +17,7 @@
 		<tr data-id="<%= stock.id %>" data-model="stock">
 			<td><%= stock.symbol %></td>
 			<td><%= stock.number_of_shares %></td>
-			<td></td>
+			<td><%= stock.current_price %></td>
 			<td><a href="/stock/show/<%= stock.id %>">Show</a></td>
 			<td><a href="/stock/edit/<%= stock.id %>">Edit</a></td>
 			<td><a href="/stock/destroy/<%= stock.id %>">Delete</a></td>
